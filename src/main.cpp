@@ -103,10 +103,10 @@ int main(int argc, char *argv[])
     gui_main main_window;
     main_window.show();
 
-    main_window.SetOutputDir(output_dir);
+//    main_window.SetOutputDir(output_dir);
 
-    if(data_files.size() > 0 || model_files.size() > 0)
-    	main_window.CommandLine(data_files, model_files, minimizer, close_simtoi);
+//    if(data_files.size() > 0 || model_files.size() > 0)
+//    	main_window.CommandLine(data_files, model_files, minimizer, close_simtoi);
 
     return app.exec();
 }

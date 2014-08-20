@@ -13,7 +13,12 @@
 
 #include "CTask.h"
 #include "CTaskFactory.h"
-#include "CWorkerThread.h"
+//#include "CWorkerThread.h"
+
+class CWorkerThread
+{
+
+};
 
 using namespace std;
 
@@ -21,8 +26,8 @@ CTaskList::CTaskList(CWorkerThread * WorkerThread)
 {
 	CTaskFactory factory = CTaskFactory::Instance();
 
-	mTasks.push_back(factory.CreateWorker("oi", WorkerThread));
-	mTasks.push_back(factory.CreateWorker("photometry", WorkerThread));
+//	mTasks.push_back(factory.CreateWorker("oi", WorkerThread));
+//	mTasks.push_back(factory.CreateWorker("photometry", WorkerThread));
 }
 
 CTaskList::~CTaskList()

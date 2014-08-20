@@ -37,7 +37,6 @@
 
 #include "CModel.h"
 #include "CModelFactory.h"
-#include "CWorkerThread.h"
 
 using namespace std;
 

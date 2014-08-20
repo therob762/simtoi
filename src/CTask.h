@@ -38,15 +38,15 @@
 #include <string>
 #include <vector>
 #include <valarray>
+#include <memory>
 
-#include "CWorkerThread.h"
+using namespace std;
 
 class CTask;
 typedef shared_ptr<CTask> CTaskPtr;
 class CWorkerThread;
 typedef shared_ptr<CWorkerThread> CWorkerPtr;
 
-using namespace std;
 
 class CTask
 {

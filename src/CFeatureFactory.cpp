@@ -34,11 +34,11 @@
 #include <stdexcept>
 
 // TODO: Instead of loading them explicitly here, it would be better to load them using plugins
-#include "features/CUniformSpot.h"
+//#include "features/CUniformSpot.h"
 
 CFeatureFactory::CFeatureFactory()
 {
-	Register("uniform_spot", &CUniformSpot::Create);
+//	Register("uniform_spot", &CUniformSpot::Create);
 }
 
 CFeatureFactory::~CFeatureFactory() \

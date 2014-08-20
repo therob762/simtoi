@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) 2012 Brian Kloppenborg
+ * Copyright (c) 2014 Brian Kloppenborg
  *
  * If you use this software as part of a scientific publication, please cite as:
  *
@@ -26,93 +26,17 @@
 #ifndef CMAINGUI_H
 #define CMAINGUI_H
 
-#include "ui_gui_main.h"
-#include "gui_common.h"
+#include "ui_guiMain.h"
 
 #include <QtGui/QMainWindow>
-#include <QStandardItem>
-#include <QStandardItemModel>
-#include <string>
 
-using namespace std;
-
-class CParameters;
-class CParameterItem;
-class CGLWidget;
-
-class gui_main : public QMainWindow, private Ui::cmainguiClass
+class gui_main : public QMainWindow, private Ui::guiMain
 {
     Q_OBJECT
-
-    string mShaderSourceDir;
-    string mKernelSourceDir;
-    bool mAnimating;
-    bool mAutoClose;
-
-    string mDefaultSaveDir; // Stores the default save path
-    int mNumMinimizations; // The number of minimization runs (used for automatic savefile naming).
-    string mOpenDataDir;	// Stores the previously opened directory for data files
-    string mOpenModelDir; 	// Stores the previously opened directory for models
 
 public:
     gui_main(QWidget *parent = 0);
     virtual ~gui_main();
-
-protected:
-    QMdiSubWindow * AddGLArea(CGLWidget * widget);
-    void AddData(QStringList & filenames, QMdiSubWindow * sw);
-public:
-    void AutoClose(bool auto_close, QMdiSubWindow * sw);
-
-protected:
-    void ButtonCheck();
-
-    void close();
-    void closeEvent(QCloseEvent *evt);
-public:
-    void CommandLine(QStringList & data_files, QStringList & model_files, string minimizer, bool close_simtoi);
-
-    QMdiSubWindow * GetCurrentSubwindow();
-    CGLWidget * GetCurrentGLWidget();
-
-protected:
-    void MinimizerRun(string MinimizerID, QMdiSubWindow * sw);
-    void ModelOpen(QStringList & fileNames, QMdiSubWindow * sw);
-
-public:
-    void Open(QStringList & filenames);
-
-protected:
-    void Init();
-
-public:
-    void render_at_time(double time);
-
-public:
-    void SetOutputDir(string folder_name);
-
-private slots:
-    void minimizerFinished();
-
-    void on_doubleSpinBoxJD_valueChanged(double jd);
-
-    void on_actionExport_triggered();
-    void on_actionOpen_triggered();
-    void on_actionSave_triggered();
-    void on_btnAddData_clicked();
-    void on_btnAddModel_clicked();
-    void on_btnEditModel_clicked();
-    void on_btnRemoveData_clicked();
-    void on_btnDeleteModel_clicked();
-    void on_btnMinimizerStartStop_clicked();
-    void on_btnNewModelArea_clicked();
-    void on_mdiArea_subWindowActivated();
-
-    void on_btnPlayPause_clicked();
-    void on_btnStepBackward_clicked();
-    void on_btnStepBackward2_clicked();
-    void on_btnStepForward_clicked();
-    void on_btnStepForward2_clicked();
 
 };
 

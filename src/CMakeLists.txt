@@ -31,18 +31,18 @@ add_subdirectory(QT)
 add_definitions( -DQT_VERSION_MAJOR=${QT_VERSION_MAJOR} )
 add_definitions( -DQT_VERSION_MINOR=${QT_VERSION_MINOR} )
 
-add_subdirectory(scripts)
-add_subdirectory(models)
-add_subdirectory(features)
-add_subdirectory(minimizers)
-add_definitions(${MINIMISER_DEFINITIONS})
+#add_subdirectory(scripts)
+#add_subdirectory(models)
+#add_subdirectory(features)
+#add_subdirectory(minimizers)
+#add_definitions(${MINIMISER_DEFINITIONS})
+#add_subdirectory(tasks)
 
-file(GLOB SOURCE *.cpp
-positions/*.cpp tasks/*.cpp)
+file(GLOB SOURCE *.cpp positions/*.cpp)
 
 # Now add the binary
 add_executable(simtoi ${SOURCE})
 
-target_link_libraries(simtoi simtoi_models simtoi_minimizers simtoi_features
-QT_files jsoncpp levmar oi_static textio_static chealpix 
+# simtoi_models simtoi_minimizers simtoi_features
+target_link_libraries(simtoi QT_files jsoncpp levmar oi_static textio_static chealpix 
 ${QT_LIBRARIES} ${OPENGL_LIBRARIES})

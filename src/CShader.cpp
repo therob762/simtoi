@@ -36,7 +36,6 @@
 #include <sstream>
 #include "CShader.h"
 #include "textio.hpp"
-#include "CWorkerThread.h"
 #include "json/json.h"
 
 using namespace std;

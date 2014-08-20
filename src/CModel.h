@@ -38,7 +38,6 @@
 #include "CParameter.h"
 #include "CPosition.h"
 #include "CShader.h"
-#include "CWorkerThread.h"
 #include "CModelList.h"
 #include "CParameterMap.h"
 
