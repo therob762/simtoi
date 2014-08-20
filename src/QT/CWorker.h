@@ -10,10 +10,29 @@
 #ifndef CWORKER_H_
 #define CWORKER_H_
 
-class CWorker {
+#include <QObject>
+#include <QSize>
+
+class CGLWidget;
+
+class CWorker : public QObject
+{
+     Q_OBJECT
+
+private:
+     CGLWidget * mGLWidget;
+
 public:
-	CWorker();
+	CWorker(CGLWidget * glWidget);
 	virtual ~CWorker();
+
+public:
+    void stop();
+    void resizeViewport(const QSize &size);
+
+public slots:
+    void start();
+
 };
 
 #endif /* CWORKER_H_ */
