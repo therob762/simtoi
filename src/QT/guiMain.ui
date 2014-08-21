@@ -110,7 +110,7 @@
          </layout>
         </item>
         <item>
-         <widget class="QWidget" name="widgetModel" native="true">
+         <widget class="CGLWidget" name="widgetModel" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -125,8 +125,8 @@
           </property>
           <property name="maximumSize">
            <size>
-            <width>16777215</width>
-            <height>16777215</height>
+            <width>128</width>
+            <height>128</height>
            </size>
           </property>
          </widget>
@@ -136,7 +136,7 @@
       <item>
        <widget class="QWidget" name="widgetDataPlots" native="true">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -224,6 +224,14 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CGLWidget</class>
+   <extends>QWidget</extends>
+   <header>CGLWidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

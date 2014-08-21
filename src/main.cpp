@@ -53,7 +53,7 @@
 #include <iostream>
 
 #include "main.h"
-#include "gui_main.h"
+#include "guiMain.h"
 
 using namespace std;
 
@@ -100,7 +100,7 @@ int main(int argc, char *argv[])
     	ParseArgs(args, data_files, model_files, minimizer, close_simtoi, output_dir);
 
     // Startup the GUI:
-    gui_main main_window;
+    guiMain main_window;
     main_window.show();
 
 //    main_window.SetOutputDir(output_dir);

@@ -12,15 +12,20 @@
 
 #include <QObject>
 #include <QSize>
+#include <QThread>
 
 class CGLWidget;
 
-class CWorker : public QObject
+class CWorker : public QThread
 {
      Q_OBJECT
 
-private:
+protected:
      CGLWidget * mGLWidget;
+     bool mDoWork;
+
+protected:
+     void run();
 
 public:
 	CWorker(CGLWidget * glWidget);
@@ -30,8 +35,7 @@ public:
     void stop();
     void resizeViewport(const QSize &size);
 
-public slots:
-    void start();
+
 
 };
 

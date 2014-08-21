@@ -23,16 +23,24 @@
  * License along with SIMTOI.  If not, see <http://www.gnu.org/licenses/>.
  */
  
-#include "gui_main.h"
+#ifndef CMAINGUI_H
+#define CMAINGUI_H
 
-gui_main::gui_main(QWidget *parent_widget)
-    : QMainWindow(parent_widget)
-{
-	// Init the UI
-	this->setupUi(this);
-}
+#include "ui_guiMain.h"
 
-gui_main::~gui_main()
+#include <QtGui/QMainWindow>
+
+class guiMain : public QMainWindow, private Ui::guiMain
 {
-	close();
-}
+    Q_OBJECT
+
+public:
+    guiMain(QWidget *parent = 0);
+    virtual ~guiMain();
+
+public slots:
+	void on_actionNew_triggered(void);
+
+};
+
+#endif // CMAINGUI_H

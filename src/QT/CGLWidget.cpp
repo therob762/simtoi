@@ -8,10 +8,11 @@
 #include "CGLWidget.h"
 #include <QResizeEvent>
 
+#include <cassert>
+using namespace std;
+
 CGLWidget::CGLWidget(QWidget * parent, const QGLWidget * shareWidget, Qt::WindowFlags f)
-: QGLWidget(parent, shareWidget, f)
-	, mWorker(this)
-	, mThread(this)
+: QGLWidget(parent, shareWidget, f), mWorker(this)
 {
 
 }
@@ -23,23 +24,56 @@ CGLWidget::~CGLWidget()
 
 void CGLWidget::startRendering()
 {
-	mWorker.moveToThread(&mThread);
-	connect(&mThread, SIGNAL(started()), &mWorker, SLOT(start()));
-	mThread.start();
+	setAutoBufferSwap(false);
+	this->doneCurrent();
+	mWorker.start();
 }
 
 void CGLWidget::stopRendering()
 {
 	mWorker.stop();
-	mThread.wait();
+	mWorker.wait();
 }
 
-void CGLWidget::resizeEvent(QResizeEvent *event)
+void CGLWidget::paintGL()
 {
-	mWorker.resizeViewport(event->size());
+	// Until the worker thread is running, we render a blank window.
+	if(!mWorker.isRunning())
+	{
+		glClearColor(0.5, 0.5, 0.5, 0.0);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	}
 }
 
-void CGLWidget::paintEvent(QPaintEvent *)
+/// Override the QGLWidget::glDraw function when the worker thread is running.
+void CGLWidget::glDraw()
 {
-	// Handled by GLPainter.
+	if(!mWorker.isRunning())
+	{
+		QGLWidget::glDraw();
+	}
+}
+
+void CGLWidget::resizeGL(int w, int h)
+{
+	// we do not permit the widget to be resized.
+}
+
+void CGLWidget::initializeGL()
+{
+	// no intialization is required.
+}
+
+void CGLWidget::initRegion(unsigned int width, unsigned int height, double scale)
+{
+	assert(width > 0);
+	assert(height > 0);
+	assert(scale > 0);
+
+	mImageWidth = width;
+	mImageHeight = height;
+	mImageScale = scale;
+
+	if(mWorker.isRunning())
+		stopRendering();
 }

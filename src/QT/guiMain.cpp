@@ -23,21 +23,32 @@
  * License along with SIMTOI.  If not, see <http://www.gnu.org/licenses/>.
  */
  
-#ifndef CMAINGUI_H
-#define CMAINGUI_H
+#include "guiMain.h"
+#include "guiNew.h"
 
-#include "ui_guiMain.h"
-
-#include <QtGui/QMainWindow>
-
-class gui_main : public QMainWindow, private Ui::guiMain
+guiMain::guiMain(QWidget *parent_widget)
+    : QMainWindow(parent_widget)
 {
-    Q_OBJECT
+	// Init the UI
+	this->setupUi(this);
+}
 
-public:
-    gui_main(QWidget *parent = 0);
-    virtual ~gui_main();
+guiMain::~guiMain()
+{
+	close();
+}
 
-};
+void guiMain::on_actionNew_triggered(void)
+{
+	guiNew dialog;
+	if(dialog.exec())
+	{
+		unsigned int width = dialog.spinWidth->value();
+		unsigned int height = dialog.spinHeight->value();
+		double scale = dialog.spinScale->value();
 
-#endif // CMAINGUI_H
+		this->widgetModel->initRegion(width, height, scale);
+		this->widgetModel->startRendering();
+	}
+
+}

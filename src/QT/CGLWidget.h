@@ -8,7 +8,6 @@
 #ifndef CGLWIDGET_H_
 #define CGLWIDGET_H_
 
-#include <QThread>
 #include <QGLWidget>
 
 #include "CWorker.h"
@@ -17,7 +16,10 @@ class CGLWidget : public QGLWidget
 {
 private:
 	CWorker mWorker;
-	QThread mThread;
+
+	unsigned int mImageWidth;
+	unsigned int mImageHeight;
+	double mImageScale;
 
 public:
 	CGLWidget(QWidget * parent = 0, const QGLWidget * shareWidget = 0, Qt::WindowFlags f = 0);
@@ -25,11 +27,15 @@ public:
 	void startRendering();
 	void stopRendering();
 
-protected:
-	void resizeEvent(QResizeEvent *event);
-	void paintEvent(QPaintEvent *event);
-	QSize sizeHint() const { return QSize(200, 200); }
+	void initRegion(unsigned int width, unsigned int height, double scale);
 
+protected:
+	void paintGL();
+	void resizeGL (int width, int height);
+	void initializeGL();
+
+public:
+	void glDraw();	// override the QGLWidget::glDraw function
 };
 
 #endif /* CGLWIDGET_H_ */
