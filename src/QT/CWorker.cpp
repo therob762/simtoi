@@ -42,7 +42,7 @@ void CWorker::initializeGL()
 
     mFBO_render.reset(new QGLFramebufferObject(mGLWidget->size(), fbo_format));
 
-//	CHECK_OPENGL_STATUS_ERROR(glGetError(), "Could not create mFBO_render");
+	CHECK_OPENGL_STATUS_ERROR(glGetError(), "Could not create mFBO_render");
 }
 
 void CWorker::run()
@@ -75,4 +75,6 @@ void CWorker::run()
 		color += 0.10;
 		color = fmod(color, 1);
 	}
+
+	mGLWidget->doneCurrent();
 }
