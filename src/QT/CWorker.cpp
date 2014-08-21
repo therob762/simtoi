@@ -34,6 +34,18 @@ void CWorker::resizeViewport(const QSize &size)
 //    messageYPos = -1;
 }
 
+void CWorker::initializeGL()
+{
+    // Create an RGBA32F MAA buffer
+    QGLFramebufferObjectFormat fbo_format = QGLFramebufferObjectFormat();
+    fbo_format.setInternalTextureFormat(GL_RGBA32F);
+    fbo_format.setTextureTarget(GL_TEXTURE_2D);
+
+    mFBO_render.reset(new QGLFramebufferObject(mGLWidget->size(), fbo_format));
+
+//	CHECK_OPENGL_STATUS_ERROR(glGetError(), "Could not create mFBO_render");
+}
+
 void CWorker::run()
 {
 	// take control of the OpenGL context
@@ -41,20 +53,22 @@ void CWorker::run()
 
 	float color = 0;
 
+	initializeGL();
+
 	while(mDoWork)
 	{
 		// change the background clear color
-//		mFBO_render->bind();
+		mFBO_render->bind();
 //		CHECK_OPENGL_STATUS_ERROR(glGetError(), "Could not bind to mFBO_render");
 		glClearColor(color, 0.0, 0.0, 0.0);
 //		CHECK_OPENGL_STATUS_ERROR(glGetError(), "glClearColor failed");
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 //		CHECK_OPENGL_STATUS_ERROR(glGetError(), "glClear failed");
-//		mFBO_render->release();
+		mFBO_render->release();
 
 		// blit the off-screen buffer to the default buffer
-//		QRect region(0, 0, glw->size().width(), glw->size().height());
-//		QGLFramebufferObject::blitFramebuffer (0, region, mFBO_render.get(), region);
+		QRect region(0, 0, mGLWidget->size().width(), mGLWidget->size().height());
+		QGLFramebufferObject::blitFramebuffer (0, region, mFBO_render.get(), region);
 //		CHECK_OPENGL_STATUS_ERROR(glGetError(), "blitFramebuffer failed");
 		mGLWidget->swapBuffers();
 

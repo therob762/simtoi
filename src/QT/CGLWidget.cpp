@@ -19,51 +19,42 @@ CGLWidget::CGLWidget(QWidget * parent, const QGLWidget * shareWidget, Qt::Window
 
 CGLWidget::~CGLWidget()
 {
-	stopRendering();
+	stopWorking();
 }
 
-void CGLWidget::startRendering()
+/// starts the worker thread
+void CGLWidget::startWorking()
 {
 	setAutoBufferSwap(false);
 	this->doneCurrent();
 	mWorker.start();
 }
 
-void CGLWidget::stopRendering()
+/// Stops the worker thread
+void CGLWidget::stopWorking()
 {
 	mWorker.stop();
 	mWorker.wait();
 }
 
-void CGLWidget::paintGL()
-{
-	// Until the worker thread is running, we render a blank window.
-	if(!mWorker.isRunning())
-	{
-		glClearColor(0.5, 0.5, 0.5, 0.0);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	}
-}
-
 /// Override the QGLWidget::glDraw function when the worker thread is running.
 void CGLWidget::glDraw()
 {
+	// If the worker is not running, we render using the default glDraw function
+	// (which eventually calls paintGL).
 	if(!mWorker.isRunning())
 	{
 		QGLWidget::glDraw();
 	}
 }
 
-void CGLWidget::resizeGL(int w, int h)
-{
-	// we do not permit the widget to be resized.
-}
-
+/// Initalize the OpenGL context.
 void CGLWidget::initializeGL()
 {
-	// no intialization is required.
+	// no initialization is required.
 }
 
+/// Initalizes the model rendering region and starts the rendering thread.
 void CGLWidget::initRegion(unsigned int width, unsigned int height, double scale)
 {
 	assert(width > 0);
@@ -75,5 +66,22 @@ void CGLWidget::initRegion(unsigned int width, unsigned int height, double scale
 	mImageScale = scale;
 
 	if(mWorker.isRunning())
-		stopRendering();
+		stopWorking();
+}
+
+/// Renders to the default OpenGL framebuffer
+void CGLWidget::paintGL()
+{
+	// Until the worker thread is running, we render a blank gray window.
+	if(!mWorker.isRunning())
+	{
+		glClearColor(0.5, 0.5, 0.5, 0.0);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	}
+}
+
+/// Resizes the widget.
+void CGLWidget::resizeGL(int w, int h)
+{
+	// we do not permit the widget to be resized.
 }

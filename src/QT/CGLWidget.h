@@ -17,6 +17,7 @@ class CGLWidget : public QGLWidget
 private:
 	CWorker mWorker;
 
+protected:
 	unsigned int mImageWidth;
 	unsigned int mImageHeight;
 	double mImageScale;
@@ -24,8 +25,8 @@ private:
 public:
 	CGLWidget(QWidget * parent = 0, const QGLWidget * shareWidget = 0, Qt::WindowFlags f = 0);
 	~CGLWidget();
-	void startRendering();
-	void stopRendering();
+	void startWorking();
+	void stopWorking();
 
 	void initRegion(unsigned int width, unsigned int height, double scale);
 

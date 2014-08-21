@@ -13,6 +13,11 @@
 #include <QObject>
 #include <QSize>
 #include <QThread>
+#include <QGLFramebufferObject>
+#include <memory>
+
+using namespace std;
+
 
 class CGLWidget;
 
@@ -24,6 +29,8 @@ protected:
      CGLWidget * mGLWidget;
      bool mDoWork;
 
+     unique_ptr<QGLFramebufferObject> mFBO_render;
+
 protected:
      void run();
 
@@ -34,6 +41,8 @@ public:
 public:
     void stop();
     void resizeViewport(const QSize &size);
+
+	void initializeGL();
 
 
 

@@ -48,7 +48,7 @@ void guiMain::on_actionNew_triggered(void)
 		double scale = dialog.spinScale->value();
 
 		this->widgetModel->initRegion(width, height, scale);
-		this->widgetModel->startRendering();
+		this->widgetModel->startWorking();
 	}
 
 }
