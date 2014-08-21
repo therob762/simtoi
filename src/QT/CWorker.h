@@ -40,12 +40,9 @@ public:
 
 public:
     void stop();
-    void resizeViewport(const QSize &size);
+	void resizeGL (int width, int height);
 
 	void initializeGL();
-
-
-
 };
 
 #endif /* CWORKER_H_ */

@@ -6,8 +6,11 @@
  */
 
 #include "CWorker.h"
-
 #include "CGLWidget.h"
+
+#include <QGLFramebufferObjectFormat>
+
+#include "OpenGL.h" // OpenGL includes, plus several workarounds for various OSes
 
 CWorker::	CWorker(CGLWidget * glWidget)
 {
@@ -15,7 +18,8 @@ CWorker::	CWorker(CGLWidget * glWidget)
 	mDoWork = true;
 }
 
-CWorker::~CWorker() {
+CWorker::~CWorker()
+{
 	// TODO Auto-generated destructor stub
 }
 
@@ -24,14 +28,9 @@ void CWorker::stop()
 	mDoWork = false;
 }
 
-void CWorker::resizeViewport(const QSize &size)
+void CWorker::resizeGL (int width, int height)
 {
-//    QMutexLocker locker(&mutex);
-//    viewportWidth = size.width();
-//    viewportHeight = size.height();
-//    initSwirlyItems();
-//    textCounter = 0;
-//    messageYPos = -1;
+	// do nothing (for now)
 }
 
 void CWorker::initializeGL()
@@ -59,17 +58,17 @@ void CWorker::run()
 	{
 		// change the background clear color
 		mFBO_render->bind();
-//		CHECK_OPENGL_STATUS_ERROR(glGetError(), "Could not bind to mFBO_render");
+		CHECK_OPENGL_STATUS_ERROR(glGetError(), "Could not bind to mFBO_render");
 		glClearColor(color, 0.0, 0.0, 0.0);
-//		CHECK_OPENGL_STATUS_ERROR(glGetError(), "glClearColor failed");
+		CHECK_OPENGL_STATUS_ERROR(glGetError(), "glClearColor failed");
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//		CHECK_OPENGL_STATUS_ERROR(glGetError(), "glClear failed");
+		CHECK_OPENGL_STATUS_ERROR(glGetError(), "glClear failed");
 		mFBO_render->release();
 
 		// blit the off-screen buffer to the default buffer
 		QRect region(0, 0, mGLWidget->size().width(), mGLWidget->size().height());
 		QGLFramebufferObject::blitFramebuffer (0, region, mFBO_render.get(), region);
-//		CHECK_OPENGL_STATUS_ERROR(glGetError(), "blitFramebuffer failed");
+		CHECK_OPENGL_STATUS_ERROR(glGetError(), "blitFramebuffer failed");
 		mGLWidget->swapBuffers();
 
 		// update the color
