@@ -49,10 +49,6 @@ void guiMain::on_actionNew_triggered(void)
 
 		this->widgetModel->initRegion(width, height, scale);
 		this->widgetModel->startWorking();
-
-		CGLWidget * temp = new CGLWidget(this);
-		temp->initRegion(width, height, scale);
-		temp->startWorking();
 	}
 
 }

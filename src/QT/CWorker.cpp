@@ -49,6 +49,7 @@ void CWorker::run()
 {
 	// take control of the OpenGL context
 	mGLWidget->makeCurrent();
+	mDoWork = true;
 
 	float color = 0;
 
