@@ -61,9 +61,12 @@ void CGLWidget::initRegion(unsigned int width, unsigned int height, double scale
 	assert(height > 0);
 	assert(scale > 0);
 
-	mImageWidth = width;
-	mImageHeight = height;
-	mImageScale = scale;
+	mScale = scale;
+
+	// Change the widget's size, notify the parent, resize the default framebuffer
+	setFixedSize(QSize(width, height));
+	updateGeometry();
+	glViewport(0, 0, (GLint)width, (GLint)height);
 
 	if(mWorker.isRunning())
 		stopWorking();
@@ -81,7 +84,7 @@ void CGLWidget::paintGL()
 }
 
 /// Resizes the widget.
-void CGLWidget::resizeGL(int w, int h)
+void CGLWidget::resizeGL(int width, int height)
 {
 	// we do not permit the widget to be resized.
 }

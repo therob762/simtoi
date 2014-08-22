@@ -14,13 +14,9 @@
 
 class CGLWidget : public QGLWidget
 {
-private:
-	CWorker mWorker;
-
 protected:
-	unsigned int mImageWidth;
-	unsigned int mImageHeight;
-	double mImageScale;
+	CWorker mWorker;
+	double mScale;
 
 public:
 	CGLWidget(QWidget * parent = 0, const QGLWidget * shareWidget = 0, Qt::WindowFlags f = 0);
@@ -34,6 +30,9 @@ protected:
 	void paintGL();
 	void resizeGL (int width, int height);
 	void initializeGL();
+
+public:
+	double scale() { return mScale; };
 
 public:
 	void glDraw();	// override the QGLWidget::glDraw function
