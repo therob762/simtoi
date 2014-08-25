@@ -112,11 +112,15 @@ void CWorker::run()
 		CHECK_OPENGL_STATUS_ERROR(glGetError(), "glClear failed");
 		mFBO_render->release();
 
-		// blit the off-screen buffer to the default buffer
-		QRect region(0, 0, mGLWidget->size().width(), mGLWidget->size().height());
-		QGLFramebufferObject::blitFramebuffer (0, region, mFBO_render.get(), region);
-		CHECK_OPENGL_STATUS_ERROR(glGetError(), "blitFramebuffer failed");
-		mGLWidget->swapBuffers();
+		// blit to screen only if the GLWidget is visible
+		if(mGLWidget->isVisible())
+		{
+			// blit the off-screen buffer to the default buffer
+			QRect region(0, 0, mGLWidget->size().width(), mGLWidget->size().height());
+			QGLFramebufferObject::blitFramebuffer (0, region, mFBO_render.get(), region);
+			CHECK_OPENGL_STATUS_ERROR(glGetError(), "blitFramebuffer failed");
+			mGLWidget->swapBuffers();
+		}
 
 		// update the color
 		color += 0.10;
