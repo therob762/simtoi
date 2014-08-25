@@ -12,6 +12,27 @@
 
 #include "OpenGL.h" // OpenGL includes, plus several workarounds for various OSes
 
+
+#include <sys/timeb.h>
+int GetMilliCount()
+{
+	// Something like GetTickCount but portable
+	// It rolls over every ~ 12.1 days (0x100000/24/60/60)
+	// Use GetMilliSpan to correct for rollover
+	timeb tb;
+	ftime( &tb );
+	int nCount = tb.millitm + (tb.time & 0xfffff) * 1000;
+	return nCount;
+}
+
+int GetMilliSpan( int nTimeStart )
+{
+	int nSpan = GetMilliCount() - nTimeStart;
+	if ( nSpan < 0 )
+		nSpan += 0x100000 * 1000;
+	return nSpan;
+}
+
 CWorker::	CWorker(CGLWidget * glWidget)
 {
 	mGLWidget = glWidget;
@@ -35,6 +56,27 @@ void CWorker::resizeGL (int width, int height)
 
 void CWorker::initializeGL()
 {
+	// Set the clear color to black with no transparency
+	glClearColor(0.0, 0.0, 0.0, 0.0);
+
+	// Dithering is a fractional pixel filling technique that allows you to
+	// combine some colors to create the effect of other colors. The non-full
+	// fill fraction of pixels could negatively impact the interferometric
+	// quantities we wish to simulate. So, disable dithering.
+	glDisable(GL_DITHER);
+
+	// Enable multi-sample anti-aliasing to improve the effective resolution
+	// of the model area.
+	// This should be enabled by default due to QGLFormat in src/main.cpp
+	//glEnable(GL_MULTISAMPLE);
+
+	// Enable depth testing to permit vertex culling
+	glEnable(GL_DEPTH_TEST);
+
+	// Enable alpha blending
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     // Create an RGBA32F MAA buffer
     QGLFramebufferObjectFormat fbo_format = QGLFramebufferObjectFormat();
     fbo_format.setInternalTextureFormat(GL_RGBA32F);
@@ -54,6 +96,10 @@ void CWorker::run()
 	float color = 0;
 
 	initializeGL();
+
+	int start = GetMilliCount();
+	double time = 0;
+	unsigned int frames = 0;
 
 	while(mDoWork)
 	{
@@ -75,7 +121,12 @@ void CWorker::run()
 		// update the color
 		color += 0.10;
 		color = fmod(color, 1);
+
+		frames += 1;
 	}
+
+	time = double(GetMilliSpan(start)) / 1000;
+	cout << "Thread " << mID << " framerate: " << double(frames) / time << " fps" << endl;
 
 	mGLWidget->doneCurrent();
 }

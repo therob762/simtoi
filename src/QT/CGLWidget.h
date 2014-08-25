@@ -32,6 +32,9 @@ protected:
 	void initializeGL();
 
 public:
+	void setID(int id) { mWorker.setID(id); };
+
+public:
 	double scale() { return mScale; };
 
 public:

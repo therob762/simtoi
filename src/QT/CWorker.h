@@ -28,6 +28,7 @@ class CWorker : public QThread
 protected:
      CGLWidget * mGLWidget;
      bool mDoWork;
+     int mID;
 
      unique_ptr<QGLFramebufferObject> mFBO_render;
 
@@ -39,6 +40,9 @@ public:
 	virtual ~CWorker();
 
 public:
+
+	void setID(int id) { mID = id; };
+
     void stop();
 	void resizeGL (int width, int height);
 

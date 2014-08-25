@@ -30,9 +30,17 @@
 
 #include <QtGui/QMainWindow>
 
+#include <memory>
+using namespace std;
+class CGLWidget;
+typedef shared_ptr<CGLWidget> CGLWidgetPtr;
+
 class guiMain : public QMainWindow, private Ui::guiMain
 {
     Q_OBJECT
+
+protected:
+    vector<CGLWidgetPtr> mGLWidgetList;
 
 public:
     guiMain(QWidget *parent = 0);

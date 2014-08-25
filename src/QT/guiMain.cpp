@@ -26,11 +26,26 @@
 #include "guiMain.h"
 #include "guiNew.h"
 
+#include "CGLWidget.h"
+
 guiMain::guiMain(QWidget *parent_widget)
     : QMainWindow(parent_widget)
 {
 	// Init the UI
 	this->setupUi(this);
+
+	// Create one CGLWidget for rendering
+	CGLWidgetPtr temp(new CGLWidget());
+	temp->setID(0);
+	mGLWidgetList.push_back(temp);
+
+	// Replace the model widget with the CGLWidget we just created
+	// Notice that we do NOT re-parent the widget as it is owned by mGLWidgetList!
+	this->topRightLayout->addWidget(temp.get());
+
+	temp.reset(new CGLWidget());
+	temp->setID(mGLWidgetList.size());
+	mGLWidgetList.push_back(temp);
 }
 
 guiMain::~guiMain()
@@ -47,8 +62,12 @@ void guiMain::on_actionNew_triggered(void)
 		unsigned int height = dialog.spinHeight->value();
 		double scale = dialog.spinScale->value();
 
-		this->widgetModel->initRegion(width, height, scale);
-		this->widgetModel->startWorking();
+		for(auto widget: mGLWidgetList)
+		{
+			widget->initRegion(width, height, scale);
+			widget->startWorking();
+		}
+
 	}
 
 }

@@ -63,7 +63,7 @@
     <item row="0" column="1">
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
+       <layout class="QHBoxLayout" name="topRightLayout">
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
@@ -108,28 +108,6 @@
            </layout>
           </item>
          </layout>
-        </item>
-        <item>
-         <widget class="CGLWidget" name="widgetModel" native="true">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>128</width>
-            <height>128</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>16777215</height>
-           </size>
-          </property>
-         </widget>
         </item>
        </layout>
       </item>
@@ -224,14 +202,6 @@
    </property>
   </action>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>CGLWidget</class>
-   <extends>QWidget</extends>
-   <header>CGLWidget.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
