@@ -20,6 +20,7 @@ class CGLWidget : public QGLWidget
 protected:
 	CWorker mWorker;
 	double mScale;
+	CQueuePtr mQueue;
 
 public:
 	CGLWidget(CQueuePtr queue, QWidget * parent = 0, const QGLWidget * shareWidget = 0, Qt::WindowFlags f = 0);

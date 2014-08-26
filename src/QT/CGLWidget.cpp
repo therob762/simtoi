@@ -7,12 +7,14 @@
 
 #include "CGLWidget.h"
 #include <QResizeEvent>
-
 #include <cassert>
+
+#include "CWorkQueue.h"
+
 using namespace std;
 
 CGLWidget::CGLWidget(CQueuePtr queue, QWidget * parent, const QGLWidget * shareWidget, Qt::WindowFlags f)
-: QGLWidget(parent, shareWidget, f), mWorker(this, queue)
+: QGLWidget(parent, shareWidget, f), mWorker(this, queue), mQueue(queue)
 {
 
 }
@@ -45,6 +47,15 @@ void CGLWidget::glDraw()
 	if(!mWorker.isRunning())
 	{
 		QGLWidget::glDraw();
+	}
+	else
+	{
+		if(this->isVisible())
+		{
+			CWorkItem op(RENDER_TO_SCREEN);
+			mQueue->push(op);
+		}
+
 	}
 }
 

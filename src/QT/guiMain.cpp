@@ -29,6 +29,7 @@
 #include "CGLWidget.h"
 #include "CWorkQueue.h"
 #include "wAnimation.h"
+#include "wMinimizer.h"
 
 guiMain::guiMain(QWidget *parent_widget)
     : QMainWindow(parent_widget)
@@ -41,8 +42,11 @@ guiMain::guiMain(QWidget *parent_widget)
 	// setup the queue
 	mQueue.reset(new CWorkQueue());
 
+	// Add custom widgets to the bottom tab widget
 	wAnimation * widgetAnimation = new wAnimation(mQueue);
 	this->tabBottom->addTab(widgetAnimation, QString("Animation"));
+	wMinimizer * widgetMinimizer = new wMinimizer(mQueue);
+	this->tabBottom->addTab(widgetMinimizer, QString("Minimizers"));
 
 	// Create one CGLWidget for rendering
 	CGLWidgetPtr temp(new CGLWidget(mQueue));

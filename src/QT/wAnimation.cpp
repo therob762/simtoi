@@ -58,6 +58,8 @@ void wAnimation::on_btnPlayPause_clicked()
 	{
 		mAnimator.stop();
 		mAnimator.wait();
+
+		btnPlayPause->setText(QString("P"));
 	}
 	else
 	{
@@ -67,6 +69,8 @@ void wAnimation::on_btnPlayPause_clicked()
 		mAnimator.setTime(start_time);
 		mAnimator.setStep(step);
 		mAnimator.start();
+
+		btnPlayPause->setText(QString("||"));
 	}
 }
 
