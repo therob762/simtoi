@@ -12,6 +12,7 @@
 
 #include "OpenGL.h" // OpenGL includes, plus several workarounds for various OSes
 
+#include "CWorkQueue.h"
 
 #include <sys/timeb.h>
 int GetMilliCount()
@@ -33,9 +34,10 @@ int GetMilliSpan( int nTimeStart )
 	return nSpan;
 }
 
-CWorker::	CWorker(CGLWidget * glWidget)
+CWorker::	CWorker(CGLWidget * glWidget, CQueuePtr queue)
 {
 	mGLWidget = glWidget;
+	mQueue = queue;
 	mDoWork = true;
 }
 

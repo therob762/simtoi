@@ -35,12 +35,16 @@ using namespace std;
 class CGLWidget;
 typedef shared_ptr<CGLWidget> CGLWidgetPtr;
 
+class CWorkQueue;
+typedef shared_ptr<CWorkQueue> CQueuePtr;
+
 class guiMain : public QMainWindow, private Ui::guiMain
 {
     Q_OBJECT
 
 protected:
     vector<CGLWidgetPtr> mGLWidgetList;
+    CQueuePtr mQueue;
 
 public:
     guiMain(QWidget *parent = 0);

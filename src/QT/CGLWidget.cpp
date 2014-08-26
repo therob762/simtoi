@@ -11,8 +11,8 @@
 #include <cassert>
 using namespace std;
 
-CGLWidget::CGLWidget(QWidget * parent, const QGLWidget * shareWidget, Qt::WindowFlags f)
-: QGLWidget(parent, shareWidget, f), mWorker(this)
+CGLWidget::CGLWidget(CQueuePtr queue, QWidget * parent, const QGLWidget * shareWidget, Qt::WindowFlags f)
+: QGLWidget(parent, shareWidget, f), mWorker(this, queue)
 {
 
 }

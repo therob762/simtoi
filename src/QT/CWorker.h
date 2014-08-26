@@ -18,8 +18,10 @@
 
 using namespace std;
 
-
 class CGLWidget;
+
+class CWorkQueue;
+typedef shared_ptr<CWorkQueue> CQueuePtr;
 
 class CWorker : public QThread
 {
@@ -27,6 +29,7 @@ class CWorker : public QThread
 
 protected:
      CGLWidget * mGLWidget;
+     CQueuePtr mQueue;
      bool mDoWork;
      int mID;
 
@@ -36,7 +39,7 @@ protected:
      void run();
 
 public:
-	CWorker(CGLWidget * glWidget);
+	CWorker(CGLWidget * glWidget, CQueuePtr queue);
 	virtual ~CWorker();
 
 public:

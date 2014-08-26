@@ -27,6 +27,7 @@
 #include "guiNew.h"
 
 #include "CGLWidget.h"
+#include "CWorkQueue.h"
 
 guiMain::guiMain(QWidget *parent_widget)
     : QMainWindow(parent_widget)
@@ -34,8 +35,10 @@ guiMain::guiMain(QWidget *parent_widget)
 	// Init the UI
 	this->setupUi(this);
 
+	mQueue.reset(new CWorkQueue());
+
 	// Create one CGLWidget for rendering
-	CGLWidgetPtr temp(new CGLWidget());
+	CGLWidgetPtr temp(new CGLWidget(mQueue));
 	temp->setID(0);
 	mGLWidgetList.push_back(temp);
 
@@ -43,7 +46,7 @@ guiMain::guiMain(QWidget *parent_widget)
 	// Notice that we do NOT re-parent the widget as it is owned by mGLWidgetList!
 	this->topRightLayout->addWidget(temp.get());
 
-	temp.reset(new CGLWidget());
+	temp.reset(new CGLWidget(mQueue));
 	temp->setID(mGLWidgetList.size());
 	mGLWidgetList.push_back(temp);
 }

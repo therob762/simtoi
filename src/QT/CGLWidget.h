@@ -12,6 +12,9 @@
 
 #include "CWorker.h"
 
+class CWorkQueue;
+typedef shared_ptr<CWorkQueue> CQueuePtr;
+
 class CGLWidget : public QGLWidget
 {
 protected:
@@ -19,7 +22,7 @@ protected:
 	double mScale;
 
 public:
-	CGLWidget(QWidget * parent = 0, const QGLWidget * shareWidget = 0, Qt::WindowFlags f = 0);
+	CGLWidget(CQueuePtr queue, QWidget * parent = 0, const QGLWidget * shareWidget = 0, Qt::WindowFlags f = 0);
 	~CGLWidget();
 	void startWorking();
 	void stopWorking();
