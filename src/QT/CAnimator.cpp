@@ -6,38 +6,56 @@
  */
 
 #include <QThread>
+#include <iostream>
+using namespace std;
 
 #include "CAnimator.h"
-#include "CGLWidget.h"
+#include "CWorkQueue.h"
 
-CAnimator::CAnimator(CGLWidget * parent)
+CAnimator::CAnimator(CQueuePtr queue, QObject * parent)
+	: QThread(parent)
 {
-	mTime = 0;
+	mQueue = queue;
 	mRun = false;
-	mParent = parent;
+	mTime = 0;
+	mStep = 0;
 }
 
 CAnimator::~CAnimator()
 {
-	mRun = false;
+	stop();
+	wait();
 }
 
-void CAnimator::start_animation(double start, double step)
+void CAnimator::run()
 {
-	mTime = start;
 	mRun = true;
+
+	CWorkItem op(RENDER_TO_SCREEN);
 
 	while(mRun)
 	{
-//		mParent->SetTime(mTime);
-//		mParent->Render();
+		mQueue->push(op);
 
-		Sleeper::msleep(50);
-		mTime += step;
+		this->msleep(50);
+		mTime += mStep;
+
+		emit(update_time(mTime));
 	}
 }
 
-void CAnimator::stop_animation()
+void CAnimator::setTime(double time)
+{
+	mTime = time;
+}
+
+void CAnimator::setStep(double step)
+{
+	mStep = step;
+}
+
+void CAnimator::stop()
 {
 	mRun = false;
 }
+

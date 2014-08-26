@@ -28,6 +28,7 @@
 
 #include "CGLWidget.h"
 #include "CWorkQueue.h"
+#include "wAnimation.h"
 
 guiMain::guiMain(QWidget *parent_widget)
     : QMainWindow(parent_widget)
@@ -35,7 +36,13 @@ guiMain::guiMain(QWidget *parent_widget)
 	// Init the UI
 	this->setupUi(this);
 
+	this->tabBottom->clear();
+
+	// setup the queue
 	mQueue.reset(new CWorkQueue());
+
+	wAnimation * widgetAnimation = new wAnimation(mQueue);
+	this->tabBottom->addTab(widgetAnimation, QString("Animation"));
 
 	// Create one CGLWidget for rendering
 	CGLWidgetPtr temp(new CGLWidget(mQueue));
@@ -77,9 +84,9 @@ void guiMain::on_actionNew_triggered(void)
 			widget->startWorking();
 		}
 
-		CWorkItem op(TEST_RENDERING);
-		for(auto widget: mGLWidgetList)
-			mQueue->push(op);
+//		CWorkItem op(TEST_RENDERING);
+//		for(auto widget: mGLWidgetList)
+//			mQueue->push(op);
 	}
 
 

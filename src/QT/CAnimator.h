@@ -1,8 +1,10 @@
 /*
  * CAnimator.h
  *
- *  Created on: Dec 4, 2013
+ *  Created on: Aug. 26, 2014
  *      Author: bkloppenborg
+ *
+ *  A simple thread for animating SIMTOI models.
  */
 
 #ifndef CANIMATOR_H_
@@ -10,36 +12,39 @@
 
 #include <QObject>
 #include <QThread>
+#include <memory>
+#include <atomic>
 
-class CGLWidget;
+using namespace std;
 
-class Sleeper : public QThread
-{
-public:
-    static void usleep(unsigned long usecs){QThread::usleep(usecs);}
-    static void msleep(unsigned long msecs){QThread::msleep(msecs);}
-    static void sleep(unsigned long secs){QThread::sleep(secs);}
-};
+class CWorkQueue;
+typedef shared_ptr<CWorkQueue> CQueuePtr;
 
-class CAnimator : public QObject
+class CAnimator : public QThread
 {
 	Q_OBJECT
 
-public:
-	CGLWidget * mParent;
+protected:
+	CQueuePtr mQueue;
+	atomic<bool> mRun;
 
 	double mTime;
-	bool mRun;
+	double mStep;
 
 public:
-	CAnimator(CGLWidget * parent);
+	CAnimator(CQueuePtr queue, QObject * parent = 0);
 	~CAnimator();
 
-	bool IsRunning() { return mRun; };
+	void stop();
+
+	void run();
 
 public slots:
-	void start_animation(double start, double step);
-	void stop_animation();
+	void setTime(double time);
+	void setStep(double step);
+
+signals:
+	void update_time(double new_time);
 };
 
 #endif /* CANIMATOR_H_ */

@@ -29,6 +29,7 @@
 #include "ui_guiMain.h"
 
 #include <QtGui/QMainWindow>
+#include <QThread>
 
 #include <memory>
 using namespace std;
@@ -37,6 +38,8 @@ typedef shared_ptr<CGLWidget> CGLWidgetPtr;
 
 class CWorkQueue;
 typedef shared_ptr<CWorkQueue> CQueuePtr;
+
+class CAnimator;
 
 class guiMain : public QMainWindow, private Ui::guiMain
 {
@@ -52,6 +55,10 @@ public:
 
 public slots:
 	void on_actionNew_triggered(void);
+
+signals:
+	void startAnimation(double start_time, double time_step);
+	void stopAnimation();
 
 };
 

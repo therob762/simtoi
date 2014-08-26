@@ -46,6 +46,13 @@ private:
 
 public:
 
+    void clear()
+    {
+    	std::unique_lock<std::mutex> lock(mMutex);
+    	for(unsigned int i = 0; i < mQueue.size(); i++)
+    		mQueue.pop();
+    }
+
     void push(CWorkItem & item)
     {
     	std::unique_lock<std::mutex> lock(mMutex);
