@@ -39,6 +39,7 @@ CWorker::	CWorker(CGLWidget * glWidget, CQueuePtr queue)
 	mGLWidget = glWidget;
 	mQueue = queue;
 	mDoWork = true;
+	mStopInstructed = false;
 }
 
 CWorker::~CWorker()
@@ -48,7 +49,10 @@ CWorker::~CWorker()
 
 void CWorker::stop()
 {
-	mDoWork = false;
+	mStopInstructed = true;
+
+	CWorkItem op(EXIT);
+	mQueue->push(op);
 }
 
 void CWorker::resizeGL (int width, int height)
@@ -103,25 +107,57 @@ void CWorker::run()
 	double time = 0;
 	unsigned int frames = 0;
 
+	CWorkItem op;
+
 	while(mDoWork)
 	{
-		// change the background clear color
-		mFBO_render->bind();
-		CHECK_OPENGL_STATUS_ERROR(glGetError(), "Could not bind to mFBO_render");
-		glClearColor(color, 0.0, 0.0, 0.0);
-		CHECK_OPENGL_STATUS_ERROR(glGetError(), "glClearColor failed");
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		CHECK_OPENGL_STATUS_ERROR(glGetError(), "glClear failed");
-		mFBO_render->release();
+		// Get the next operation
+		mQueue->wait_and_pop(op);
 
-		// blit to screen only if the GLWidget is visible
-		if(mGLWidget->isVisible())
+		switch(op.command)
 		{
-			// blit the off-screen buffer to the default buffer
-			QRect region(0, 0, mGLWidget->size().width(), mGLWidget->size().height());
-			QGLFramebufferObject::blitFramebuffer (0, region, mFBO_render.get(), region);
-			CHECK_OPENGL_STATUS_ERROR(glGetError(), "blitFramebuffer failed");
-			mGLWidget->swapBuffers();
+
+		case EXIT:
+			// Only process the exit event if we have been instructed to exit.
+			if(mStopInstructed)
+				mDoWork = false;
+			else
+			{
+				mQueue->push(op);
+			}
+
+			break;
+
+		case RENDER_TO_SCREEN:
+
+			// only visible wigets can render to the screen. All other widgets
+			// will put the item back on the queue.
+			if(mGLWidget->isVisible())
+			{
+				// change the background clear color
+				mFBO_render->bind();
+				CHECK_OPENGL_STATUS_ERROR(glGetError(), "Could not bind to mFBO_render");
+				glClearColor(color, 0.0, 0.0, 0.0);
+				CHECK_OPENGL_STATUS_ERROR(glGetError(), "glClearColor failed");
+				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+				CHECK_OPENGL_STATUS_ERROR(glGetError(), "glClear failed");
+				mFBO_render->release();
+
+				// blit to screen only if the GLWidget is visible
+				if(mGLWidget->isVisible())
+				{
+					// blit the off-screen buffer to the default buffer
+					QRect region(0, 0, mGLWidget->size().width(), mGLWidget->size().height());
+					QGLFramebufferObject::blitFramebuffer (0, region, mFBO_render.get(), region);
+					CHECK_OPENGL_STATUS_ERROR(glGetError(), "blitFramebuffer failed");
+					mGLWidget->swapBuffers();
+				}
+			}
+			else
+			{
+				mQueue->push(op);
+				QThread::msleep(500);
+			}
 		}
 
 		// update the color

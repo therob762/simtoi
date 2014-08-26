@@ -46,6 +46,27 @@ guiMain::guiMain(QWidget *parent_widget)
 	// Notice that we do NOT re-parent the widget as it is owned by mGLWidgetList!
 	this->topRightLayout->addWidget(temp.get());
 
+	// Add another thread
+	temp.reset(new CGLWidget(mQueue));
+	temp->setID(mGLWidgetList.size());
+	mGLWidgetList.push_back(temp);
+
+	// Add another thread
+	temp.reset(new CGLWidget(mQueue));
+	temp->setID(mGLWidgetList.size());
+	mGLWidgetList.push_back(temp);
+
+	// Add another thread
+	temp.reset(new CGLWidget(mQueue));
+	temp->setID(mGLWidgetList.size());
+	mGLWidgetList.push_back(temp);
+
+	// Add another thread
+	temp.reset(new CGLWidget(mQueue));
+	temp->setID(mGLWidgetList.size());
+	mGLWidgetList.push_back(temp);
+
+	// Add another thread
 	temp.reset(new CGLWidget(mQueue));
 	temp->setID(mGLWidgetList.size());
 	mGLWidgetList.push_back(temp);
@@ -70,7 +91,7 @@ void guiMain::on_actionNew_triggered(void)
 			widget->initRegion(width, height, scale);
 			widget->startWorking();
 		}
-
 	}
+
 
 }

@@ -15,6 +15,7 @@
 #include <QThread>
 #include <QGLFramebufferObject>
 #include <memory>
+#include <atomic>
 
 using namespace std;
 
@@ -30,7 +31,8 @@ class CWorker : public QThread
 protected:
      CGLWidget * mGLWidget;
      CQueuePtr mQueue;
-     bool mDoWork;
+     std::atomic<bool> mDoWork;
+     std::atomic<bool> mStopInstructed;
      int mID;
 
      unique_ptr<QGLFramebufferObject> mFBO_render;

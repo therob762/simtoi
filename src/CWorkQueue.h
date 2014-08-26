@@ -16,12 +16,24 @@ using namespace std;
 
 enum WorkCommand
 {
-	RENDER_TO_SCREEN
+	RENDER_TO_SCREEN,
+	EXIT,
 };
 
 class CWorkItem
 {
+public:
 	WorkCommand command;
+
+public:
+	CWorkItem() {};
+
+	CWorkItem(WorkCommand command)
+	{
+		this->command = command;
+	}
+
+	virtual ~CWorkItem() {} ;
 };
 
 class CWorkQueue
@@ -37,7 +49,6 @@ public:
     {
     	std::unique_lock<std::mutex> lock(mMutex);
 		mQueue.push(item);
-		lock.unlock();
 		mConditionVar.notify_one();
     }
 
