@@ -17,6 +17,7 @@ using namespace std;
 enum WorkCommand
 {
 	RENDER_TO_SCREEN,
+	TEST_RENDERING,
 	EXIT,
 };
 

@@ -55,21 +55,6 @@ guiMain::guiMain(QWidget *parent_widget)
 	temp.reset(new CGLWidget(mQueue));
 	temp->setID(mGLWidgetList.size());
 	mGLWidgetList.push_back(temp);
-
-	// Add another thread
-	temp.reset(new CGLWidget(mQueue));
-	temp->setID(mGLWidgetList.size());
-	mGLWidgetList.push_back(temp);
-
-	// Add another thread
-	temp.reset(new CGLWidget(mQueue));
-	temp->setID(mGLWidgetList.size());
-	mGLWidgetList.push_back(temp);
-
-	// Add another thread
-	temp.reset(new CGLWidget(mQueue));
-	temp->setID(mGLWidgetList.size());
-	mGLWidgetList.push_back(temp);
 }
 
 guiMain::~guiMain()
@@ -91,6 +76,10 @@ void guiMain::on_actionNew_triggered(void)
 			widget->initRegion(width, height, scale);
 			widget->startWorking();
 		}
+
+		CWorkItem op(TEST_RENDERING);
+		for(auto widget: mGLWidgetList)
+			mQueue->push(op);
 	}
 
 
