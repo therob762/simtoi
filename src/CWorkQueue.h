@@ -12,35 +12,14 @@
 #include <mutex>
 #include <condition_variable>
 
+#include "WorkTypes.h"
+
 using namespace std;
-
-enum WorkCommand
-{
-	RENDER_TO_SCREEN,
-	TEST_RENDERING,
-	EXIT,
-};
-
-class CWorkItem
-{
-public:
-	WorkCommand command;
-
-public:
-	CWorkItem() {};
-
-	CWorkItem(WorkCommand command)
-	{
-		this->command = command;
-	}
-
-	virtual ~CWorkItem() {} ;
-};
 
 class CWorkQueue
 {
 private:
-    queue<CWorkItem> mQueue;
+    queue<CWorkPtr> mQueue;
     std::mutex mMutex;
     std::condition_variable mConditionVar;
 
@@ -53,7 +32,7 @@ public:
     		mQueue.pop();
     }
 
-    void push(CWorkItem & item)
+    void push(CWorkPtr & item)
     {
     	std::unique_lock<std::mutex> lock(mMutex);
 		mQueue.push(item);
@@ -66,7 +45,7 @@ public:
     	return mQueue.empty();
     }
 
-    bool try_pop(CWorkItem & popped_item)
+    bool try_pop(CWorkPtr & popped_item)
 	{
     	std::unique_lock<std::mutex> lock(mMutex);
 		if(mQueue.empty())
@@ -79,7 +58,7 @@ public:
 		return true;
 	}
 
-	void wait_and_pop(CWorkItem& popped_item)
+	void wait_and_pop(CWorkPtr& popped_item)
 	{
     	std::unique_lock<std::mutex> lock(mMutex);
 		while(mQueue.empty())

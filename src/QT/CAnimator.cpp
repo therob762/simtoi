@@ -31,10 +31,9 @@ void CAnimator::run()
 {
 	mRun = true;
 
-	CWorkItem op(RENDER_TO_SCREEN);
-
 	while(mRun)
 	{
+		CWorkPtr op(new CWorkItem(RENDER_TO_SCREEN));
 		mQueue->push(op);
 
 		this->msleep(50);

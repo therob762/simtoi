@@ -51,7 +51,7 @@ void CWorker::stop()
 {
 	mStopInstructed = true;
 
-	CWorkItem op(EXIT);
+	CWorkPtr op(new CWorkItem(EXIT));
 	mQueue->push(op);
 }
 
@@ -107,21 +107,21 @@ void CWorker::run()
 	double time = 0;
 	unsigned int frames = 0;
 
-	CWorkItem op;
+	CWorkPtr op;
 
 	while(mDoWork)
 	{
 		// Get the next operation
 		mQueue->wait_and_pop(op);
 
-		if(op.command == RENDER_TO_SCREEN && !mGLWidget->isVisible())
+		if(op->getType() == RENDER_TO_SCREEN && !mGLWidget->isVisible())
 		{
 			mQueue->push(op);
 			continue;
 		}
 
 
-		switch(op.command)
+		switch(op->getType())
 		{
 
 		case EXIT:

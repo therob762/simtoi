@@ -30,7 +30,7 @@ wAnimation::~wAnimation()
 
 void wAnimation::enqueueRender(double time)
 {
-	CWorkItem op(RENDER_TO_SCREEN);
+	CWorkPtr op(new CWorkItem(RENDER_TO_SCREEN));
 	mQueue->push(op);
 
 	update_time(time);
