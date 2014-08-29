@@ -33,11 +33,14 @@ public:
 
 protected:
 	void enqueueRender(double time);
+	void changeEvent ( QEvent * event );
+
 
 signals:
 	void timestep_updated(double new_step_size);
 
 public slots:
+
 	void on_btnStepBackward2_clicked();
 	void on_btnStepBackward_clicked();
 	void on_btnPlayPause_clicked();

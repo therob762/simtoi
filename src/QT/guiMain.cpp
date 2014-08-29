@@ -31,6 +31,9 @@
 #include "wAnimation.h"
 #include "wMinimizer.h"
 
+#include <iostream>
+using namespace std;
+
 guiMain::guiMain(QWidget *parent_widget)
     : QMainWindow(parent_widget)
 {
@@ -88,9 +91,16 @@ void guiMain::on_actionNew_triggered(void)
 			widget->startWorking();
 		}
 
-//		CWorkItem op(TEST_RENDERING);
-//		for(auto widget: mGLWidgetList)
-//			mQueue->push(op);
+		// enable buttons
+		btnAddData->setEnabled(true);
+		btnAddModel->setEnabled(true);
+		btnEditData->setEnabled(true);
+		btnEditModel->setEnabled(true);
+		btnRemoveData->setEnabled(true);
+		btnRemoveModel->setEnabled(true);
+		// enable tabs
+		for(unsigned int i = 0; i < tabBottom->count(); i++)
+			tabBottom->setTabEnabled(i, true);
 	}
 
 

@@ -120,7 +120,6 @@ void CWorker::run()
 			continue;
 		}
 
-
 		switch(op->getType())
 		{
 

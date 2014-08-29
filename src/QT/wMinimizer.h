@@ -24,6 +24,7 @@ class wMinimizer : public QWidget, public Ui::wMinimizer {
 
 protected:
 	CQueuePtr mQueue;
+	void changeEvent ( QEvent * event );
 
 public:
     wMinimizer(CQueuePtr queue, QWidget * parent = 0);

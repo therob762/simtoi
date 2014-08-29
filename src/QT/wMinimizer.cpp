@@ -16,6 +16,8 @@ wMinimizer::wMinimizer(CQueuePtr queue, QWidget * parent)
 {
 	this->setupUi(this);
 
+	setEnabled(false);
+
 }
 
 wMinimizer::~wMinimizer()
@@ -24,4 +26,15 @@ wMinimizer::~wMinimizer()
 //	mAnimator.wait();
 }
 
+void wMinimizer::changeEvent ( QEvent * event )
+{
+	if(event->type() == QEvent::EnabledChange)
+	{
+		bool is_enabled = isEnabled();
+		btnMinimizerStartStop->setEnabled(is_enabled);
+		cboMinimizers->setEnabled(is_enabled);
+		textSaveFolder->setEnabled(is_enabled);
+
+	}
+}
 
