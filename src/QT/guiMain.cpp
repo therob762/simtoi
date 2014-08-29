@@ -24,7 +24,9 @@
  */
  
 #include "guiMain.h"
+
 #include "guiRegion.h"
+#include "guiModel.h"
 
 #include "CGLWidget.h"
 #include "CWorkQueue.h"
@@ -76,6 +78,7 @@ guiMain::~guiMain()
 	close();
 }
 
+/// Opens up a dialog for creating a new model region
 void guiMain::on_actionNew_triggered(void)
 {
 	guiRegion dialog;
@@ -102,6 +105,14 @@ void guiMain::on_actionNew_triggered(void)
 		for(unsigned int i = 0; i < tabBottom->count(); i++)
 			tabBottom->setTabEnabled(i, true);
 	}
+}
 
+/// Opens up a dialog for creating a new model
+void guiMain::on_btnAddModel_clicked(void)
+{
+	guiModel dialog;
+	if(dialog.exec())
+	{
 
+	}
 }

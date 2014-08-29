@@ -55,6 +55,7 @@ public:
 
 public slots:
 	void on_actionNew_triggered(void);
+	void on_btnAddModel_clicked(void);
 
 signals:
 	void startAnimation(double start_time, double time_step);
