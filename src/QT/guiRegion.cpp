@@ -1,18 +1,18 @@
 /*
- * guiNew.cpp
+ * guiRegion.cpp
  *
  *  Created on: Aug 21, 2014
  *      Author: bkloppenborg
  */
 
-#include "guiNew.h"
+#include "guiRegion.h"
 
-guiNew::guiNew() {
+guiRegion::guiRegion() {
 	this->setupUi(this);
 
 }
 
-guiNew::~guiNew() {
+guiRegion::~guiRegion() {
 	// TODO Auto-generated destructor stub
 }
 

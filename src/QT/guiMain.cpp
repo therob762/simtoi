@@ -24,7 +24,7 @@
  */
  
 #include "guiMain.h"
-#include "guiNew.h"
+#include "guiRegion.h"
 
 #include "CGLWidget.h"
 #include "CWorkQueue.h"
@@ -78,7 +78,7 @@ guiMain::~guiMain()
 
 void guiMain::on_actionNew_triggered(void)
 {
-	guiNew dialog;
+	guiRegion dialog;
 	if(dialog.exec())
 	{
 		unsigned int width = dialog.spinWidth->value();
