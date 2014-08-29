@@ -33,7 +33,7 @@ void CAnimator::run()
 
 	while(mRun)
 	{
-		WorkPtr op = make_shared<WorkItem>(RENDER_TO_SCREEN);
+		WorkPtr op = make_shared<RenderAtTime>(mTime);
 		mQueue->push(op);
 
 		this->msleep(50);
