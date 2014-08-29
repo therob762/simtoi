@@ -51,7 +51,7 @@ void CWorker::stop()
 {
 	mStopInstructed = true;
 
-	CWorkPtr op(new CWorkItem(EXIT));
+	WorkPtr op = make_shared<WorkItem>(EXIT);
 	mQueue->push(op);
 }
 
@@ -107,7 +107,7 @@ void CWorker::run()
 	double time = 0;
 	unsigned int frames = 0;
 
-	CWorkPtr op;
+	WorkPtr op;
 
 	while(mDoWork)
 	{

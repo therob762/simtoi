@@ -52,7 +52,7 @@ void CGLWidget::glDraw()
 	{
 		if(this->isVisible())
 		{
-			CWorkPtr op(new CWorkItem(RENDER_TO_SCREEN));
+			WorkPtr op = make_shared<WorkItem>(RENDER_TO_SCREEN);
 			mQueue->push(op);
 		}
 

@@ -19,7 +19,7 @@ using namespace std;
 class CWorkQueue
 {
 private:
-    queue<CWorkPtr> mQueue;
+    queue<WorkPtr> mQueue;
     std::mutex mMutex;
     std::condition_variable mConditionVar;
 
@@ -32,7 +32,7 @@ public:
     		mQueue.pop();
     }
 
-    void push(CWorkPtr & item)
+    void push(WorkPtr & item)
     {
     	std::unique_lock<std::mutex> lock(mMutex);
 		mQueue.push(item);
@@ -45,7 +45,7 @@ public:
     	return mQueue.empty();
     }
 
-    bool try_pop(CWorkPtr & popped_item)
+    bool try_pop(WorkPtr & popped_item)
 	{
     	std::unique_lock<std::mutex> lock(mMutex);
 		if(mQueue.empty())
@@ -58,7 +58,7 @@ public:
 		return true;
 	}
 
-	void wait_and_pop(CWorkPtr& popped_item)
+	void wait_and_pop(WorkPtr& popped_item)
 	{
     	std::unique_lock<std::mutex> lock(mMutex);
 		while(mQueue.empty())
