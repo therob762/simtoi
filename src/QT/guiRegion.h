@@ -8,9 +8,9 @@
 #ifndef GUIREGION_H_
 #define GUIREGION_H_
 
-#include "ui_guiNew.h"
+#include "ui_guiRegion.h"
 
-class guiRegion : public QDialog, public Ui::guiNew {
+class guiRegion : public QDialog, public Ui::guiRegion {
 public:
 	guiRegion();
 	virtual ~guiRegion();

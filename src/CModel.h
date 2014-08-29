@@ -154,6 +154,7 @@ public:
 
 public:
 	Json::Value Serialize();
+	virtual void SetFeatures(vector<CFeaturePtr> & features);
 	void SetPositionModel(string position_id);
 	void SetPositionModel(CPositionPtr position);
 

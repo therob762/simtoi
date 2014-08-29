@@ -113,6 +113,6 @@ void guiMain::on_btnAddModel_clicked(void)
 	guiModel dialog;
 	if(dialog.exec())
 	{
-
+		CModelPtr model = dialog.getModel();
 	}
 }

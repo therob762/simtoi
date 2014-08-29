@@ -21,10 +21,18 @@ typedef shared_ptr<CModel> CModelPtr;
 class guiModel : public QDialog, public Ui::guiModel {
 	Q_OBJECT
 
+protected:
+	CModelPtr mModel;
+
 public:
 	guiModel();
 	guiModel(CModelPtr model);
 	virtual ~guiModel();
+
+	CModelPtr getModel();
+
+protected:
+	void initUi();
 
 public slots:
 	void on_btnFeatureAdd_clicked();
