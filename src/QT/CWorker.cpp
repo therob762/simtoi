@@ -114,7 +114,8 @@ void CWorker::run()
 		// Get the next operation
 		mQueue->wait_and_pop(op);
 
-		if(op->getType() == RENDER_TO_SCREEN && !mGLWidget->isVisible())
+		if(!mGLWidget->isVisible() &&
+				( op->getType() == RENDER_TO_SCREEN || op->getType() == RENDER_AT_TIME ))
 		{
 			mQueue->push(op);
 			continue;
@@ -157,6 +158,7 @@ void CWorker::run()
 			mQueue->push(op);
 			break;
 
+		case RENDER_AT_TIME:
 		case RENDER_TO_SCREEN:
 			// Renders directly to GL_BACK and swaps buffers
 
