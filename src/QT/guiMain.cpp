@@ -125,6 +125,9 @@ void guiMain::on_btnAddModel_clicked(void)
 		CModelPtr model = dialog.getModel();
 		addModel(model);
 	}
+
+	WorkPtr op = make_shared<WorkItem>(RENDER_TO_SCREEN);
+	mQueue->push(op);
 }
 
 /// Opens up a dialog for creating a new model
@@ -143,4 +146,20 @@ void guiMain::on_btnEditModel_clicked(void)
 			widget->replaceModel(old_model_index, new_model);
 		}
 	}
+
+	WorkPtr op = make_shared<WorkItem>(RENDER_TO_SCREEN);
+	mQueue->push(op);
+}
+
+void guiMain::on_btnRemoveModel_clicked(void)
+{
+	unsigned int index = 0;
+
+	for(auto widget: mGLWidgetList)
+	{
+		widget->removeModel(index);
+	}
+
+	WorkPtr op = make_shared<WorkItem>(RENDER_TO_SCREEN);
+	mQueue->push(op);
 }
