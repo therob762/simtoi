@@ -17,10 +17,11 @@
 #include <memory>
 #include <atomic>
 
+#include "CModelList.h"
+
 using namespace std;
 
 class CGLWidget;
-
 class CWorkQueue;
 typedef shared_ptr<CWorkQueue> CQueuePtr;
 
@@ -35,6 +36,8 @@ protected:
      std::atomic<bool> mStopInstructed;
      int mID;
 
+     CModelList mModelList;
+
      unique_ptr<QGLFramebufferObject> mFBO_render;
 
 protected:
@@ -45,6 +48,11 @@ public:
 	virtual ~CWorker();
 
 public:
+
+	void addModel(CModelPtr model);
+	CModelPtr getModel(unsigned int model_index);
+	void replaceModel(unsigned int model_index, CModelPtr new_model);
+	void removeModel(unsigned int model_index);
 
 	void setID(int id) { mID = id; };
 

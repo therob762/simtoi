@@ -29,6 +29,14 @@ void setOptions(QComboBox * comboBox, const vector<string> & options)
 	}
 }
 
+void setSelectedValue(QComboBox * comboBox, const QString & value)
+{
+	int index = comboBox->findText(value);
+	if ( index != -1 ) { // -1 for not found
+		comboBox->setCurrentIndex(index);
+	}
+}
+
 void setSelectedValue(QComboBox * comboBox, const QVariant & value)
 {
 	int index = comboBox->findData(value);

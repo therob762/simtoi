@@ -6,8 +6,14 @@
  */
 
 #include "CGLWidget.h"
+
 #include <QResizeEvent>
 #include <cassert>
+
+#define GLM_FORCE_RADIANS
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "CWorkQueue.h"
 
@@ -37,6 +43,26 @@ void CGLWidget::stopWorking()
 {
 	mWorker.stop();
 	mWorker.wait();
+}
+
+void CGLWidget::addModel(CModelPtr model)
+{
+	mWorker.addModel(model);
+}
+
+CModelPtr CGLWidget::getModel(unsigned int model_index)
+{
+	return mWorker.getModel(model_index);
+}
+
+void CGLWidget::replaceModel(unsigned int model_index, CModelPtr new_model)
+{
+	mWorker.replaceModel(model_index, new_model);
+}
+
+void CGLWidget::removeModel(unsigned int model_index)
+{
+	mWorker.removeModel(model_index);
 }
 
 /// Override the QGLWidget::glDraw function when the worker thread is running.
@@ -78,6 +104,12 @@ void CGLWidget::initRegion(unsigned int width, unsigned int height, double scale
 	setFixedSize(QSize(width, height));
 	updateGeometry();
 	glViewport(0, 0, (GLint)width, (GLint)height);
+
+	// Setup the view:
+	double half_width = width * mScale / 2;
+	double half_height = width * mScale / 2;
+	double depth = 500; // hard-coded to 500 units (typically mas) in each direction.
+	mView = glm::ortho(-half_width, half_width, -half_height, half_height, -depth, depth);
 
 	if(mWorker.isRunning())
 		stopWorking();

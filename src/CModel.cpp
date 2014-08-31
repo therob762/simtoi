@@ -605,7 +605,7 @@ void CModel::SetFreeParameters(double * in_params, int n_params, bool scale_para
 void CModel::SetPositionModel(string position_id)
 {
 	auto factory = CPositionFactory::Instance();
-	SetPositionModel( factory.CreatePosition(position_id));
+	SetPositionModel( factory.CreatePosition(position_id) );
 }
 
 /// \brief Sets the position model for this objects.

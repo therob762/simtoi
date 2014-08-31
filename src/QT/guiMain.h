@@ -39,6 +39,9 @@ typedef shared_ptr<CGLWidget> CGLWidgetPtr;
 class CWorkQueue;
 typedef shared_ptr<CWorkQueue> CQueuePtr;
 
+class CModel;
+typedef shared_ptr<CModel> CModelPtr;
+
 class CAnimator;
 
 class guiMain : public QMainWindow, private Ui::guiMain
@@ -53,9 +56,13 @@ public:
     guiMain(QWidget *parent = 0);
     virtual ~guiMain();
 
+    void addModel(CModelPtr model);
+    void replaceModel(CModelPtr old_model, CModelPtr new_model);
+
 public slots:
 	void on_actionNew_triggered(void);
 	void on_btnAddModel_clicked(void);
+	void on_btnEditModel_clicked(void);
 
 signals:
 	void startAnimation(double start_time, double time_step);

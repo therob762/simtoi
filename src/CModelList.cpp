@@ -177,6 +177,18 @@ void CModelList::Render(const mat4 & view)
     glFinish();
 }
 
+void CModelList::ReplaceModel(unsigned int model_index, CModelPtr model)
+{
+	if(model_index < mModels.size())
+		mModels[model_index] = model;
+}
+
+void CModelList::RemoveModel(unsigned int model_index)
+{
+	if(model_index < mModels.size())
+		mModels.erase(mModels.begin() + model_index);
+}
+
 /// Restores the saved models
 void CModelList::Restore(Json::Value input)
 {

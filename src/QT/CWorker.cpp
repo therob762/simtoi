@@ -13,6 +13,8 @@
 #include "OpenGL.h" // OpenGL includes, plus several workarounds for various OSes
 
 #include "CWorkQueue.h"
+#include "CModel.h"
+#include "CModelList.h"
 
 #include <sys/timeb.h>
 int GetMilliCount()
@@ -34,7 +36,7 @@ int GetMilliSpan( int nTimeStart )
 	return nSpan;
 }
 
-CWorker::	CWorker(CGLWidget * glWidget, CQueuePtr queue)
+CWorker::CWorker(CGLWidget * glWidget, CQueuePtr queue)
 {
 	mGLWidget = glWidget;
 	mQueue = queue;
@@ -47,17 +49,32 @@ CWorker::~CWorker()
 	// TODO Auto-generated destructor stub
 }
 
-void CWorker::stop()
+void CWorker::addModel(CModelPtr model)
 {
-	mStopInstructed = true;
-
-	WorkPtr op = make_shared<WorkItem>(EXIT);
-	mQueue->push(op);
+	// Because multiple workers could be running, we cannot use the CModelPtr
+	// instance in a thread-safe fashion. Make a deep copy of the model then
+	// append to the list.
+	CModelPtr temp = CModelPtr(model->clone());
+	mModelList.AddModel(model);
 }
 
-void CWorker::resizeGL (int width, int height)
+CModelPtr CWorker::getModel(unsigned int model_index)
 {
-	// do nothing (for now)
+	return mModelList.GetModel(model_index);
+}
+
+void CWorker::replaceModel(unsigned int model_index, CModelPtr new_model)
+{
+	// Because multiple workers could be running, we cannot use the CModelPtr
+	// instance in a thread-safe fashion. Make a deep copy of the model then
+	// append to the list.
+	CModelPtr temp = CModelPtr(new_model->clone());
+	mModelList.ReplaceModel(model_index, temp);
+}
+
+void CWorker::removeModel(unsigned int model_index)
+{
+	mModelList.RemoveModel(model_index);
 }
 
 void CWorker::initializeGL()
@@ -91,6 +108,11 @@ void CWorker::initializeGL()
     mFBO_render.reset(new QGLFramebufferObject(mGLWidget->size(), fbo_format));
 
 	CHECK_OPENGL_STATUS_ERROR(glGetError(), "Could not create mFBO_render");
+}
+
+void CWorker::resizeGL (int width, int height)
+{
+	// do nothing (for now)
 }
 
 void CWorker::run()
@@ -167,6 +189,8 @@ void CWorker::run()
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			CHECK_OPENGL_STATUS_ERROR(glGetError(), "glClear failed");
 
+			mModelList.Render(mGLWidget->getView());
+
 			mGLWidget->swapBuffers();
 			break;
 
@@ -182,4 +206,12 @@ void CWorker::run()
 	cout << "Thread " << mID << " framerate: " << double(frames) / time << " fps" << endl;
 
 	mGLWidget->doneCurrent();
+}
+
+void CWorker::stop()
+{
+	mStopInstructed = true;
+
+	WorkPtr op = make_shared<WorkItem>(EXIT);
+	mQueue->push(op);
 }

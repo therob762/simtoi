@@ -79,6 +79,15 @@ guiMain::~guiMain()
 }
 
 /// Opens up a dialog for creating a new model region
+void guiMain::addModel(CModelPtr model)
+{
+	for(auto widget: mGLWidgetList)
+	{
+		widget->addModel(model);
+	}
+}
+
+/// Opens up a dialog for creating a new model region
 void guiMain::on_actionNew_triggered(void)
 {
 	guiRegion dialog;
@@ -114,5 +123,24 @@ void guiMain::on_btnAddModel_clicked(void)
 	if(dialog.exec())
 	{
 		CModelPtr model = dialog.getModel();
+		addModel(model);
+	}
+}
+
+/// Opens up a dialog for creating a new model
+void guiMain::on_btnEditModel_clicked(void)
+{
+	unsigned int old_model_index = 0;
+	CModelPtr old_model = mGLWidgetList[0]->getModel(old_model_index);
+
+	guiModel dialog(old_model);
+	if(dialog.exec())
+	{
+		CModelPtr new_model = dialog.getModel();
+
+		for(auto widget: mGLWidgetList)
+		{
+			widget->replaceModel(old_model_index, new_model);
+		}
 	}
 }
