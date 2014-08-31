@@ -19,6 +19,7 @@ class CDisk_Andrews2009: public CDensityDisk
 public:
 	CDisk_Andrews2009();
 	virtual ~CDisk_Andrews2009();
+	CDisk_Andrews2009 * clone() const { return new CDisk_Andrews2009(*this); };
 
 	static shared_ptr<CModel> Create();
 

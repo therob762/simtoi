@@ -15,6 +15,7 @@ class CRocheBinary: public CHealpixSpheroid
 public:
 	CRocheBinary();
 	virtual ~CRocheBinary();
+	CRocheBinary * clone() const { return new CRocheBinary(*this); };
 
 public:
 

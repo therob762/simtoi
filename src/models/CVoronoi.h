@@ -28,6 +28,7 @@ protected:
 public:
 	CVoronoi();
 	virtual ~CVoronoi();
+	CVoronoi * clone() const { return new CVoronoi(*this); };
 
 	static shared_ptr<CModel> Create();
 

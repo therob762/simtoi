@@ -29,6 +29,7 @@ class CDisk_ConcentricRings: public CModel
 public:
 	CDisk_ConcentricRings();
 	virtual ~CDisk_ConcentricRings();
+	CDisk_ConcentricRings * clone() const { return new CDisk_ConcentricRings(*this); };
 
 	static shared_ptr<CModel> Create();
 

@@ -62,6 +62,7 @@ protected:
 public:
 	CCylinder();
 	virtual ~CCylinder();
+	CCylinder * clone() const { return new CCylinder(*this); };
 
 	static shared_ptr<CModel> Create();
 

@@ -79,13 +79,19 @@ typedef shared_ptr<CFeature> CFeaturePtr;
 /// This class serves as a basis from which all models in SIMTOI are derived.
 /// It implements methods for saving and restoring (`Serialize()` and `Restore()`)
 /// models from SIMTOI save files and for basic OpenGL operations such as rotation
-/// and translation.
+/// and translation. This class derives from `CParameterMap` which is used to
+/// store values of model parameters.
 ///
-/// At a minimum, all models should override the `Render()` and `GetID()` functions.
-/// See `CModelSphere` for a simple example.
+/// A minimum inheriting class must implement the `Render()`, `GetID()`,
+/// and `clone()` functions.
 ///
-/// This class is derived from `CParameters` which is used to store the
-/// values of model parameters.
+/// NOTE: Because SIMTOI supports multi-threaded rendering on separate OpenGL
+/// contexts, SIMTOI will create copies of model objects. Therefore every model
+/// must use datamembers that are thread safe. By default, the C++ compiler will
+/// create a copy constructor for your object, but if you use pointers in your
+/// class, you SHOULD implement a deep copy constructor for your class or
+/// otherwise ensure the class is thread safe.
+///
 class CModel: public CParameterMap
 {
 
@@ -129,6 +135,9 @@ public:
 	CModel();
 	virtual ~CModel();
 
+	virtual CModel * clone() const = 0;
+
+public:
 	void AddFeature(string feature_id);
 
 	int GetNModelFreeParameters();

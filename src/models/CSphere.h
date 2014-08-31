@@ -50,6 +50,7 @@ protected:
 public:
 	CSphere();
 	virtual ~CSphere();
+	CSphere * clone() const { return new CSphere(*this); };
 
 	static shared_ptr<CModel> Create();
 

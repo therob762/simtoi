@@ -27,6 +27,7 @@ class CRocheRotator: public CHealpixSpheroid
 public:
 	CRocheRotator();
 	virtual ~CRocheRotator();
+	CRocheRotator * clone() const { return new CRocheRotator(*this); };
 
 private:
 	double lambda;

@@ -33,6 +33,7 @@ class CDisk_Pascucci2004: public CDensityDisk
 public:
 	CDisk_Pascucci2004();
 	virtual ~CDisk_Pascucci2004();
+	CDisk_Pascucci2004 * clone() const { return new CDisk_Pascucci2004(*this); };
 
 	static shared_ptr<CModel> Create();
 
