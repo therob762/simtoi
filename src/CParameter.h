@@ -13,6 +13,24 @@ using namespace std;
 
 class CParameter
 {
+public:
+	enum eRole{
+		// boolean roles:
+		DIRTY,
+		IS_FREE,
+		// integer roles
+		DECIMAL_PLACES,
+		// decimal roles
+		MAX,
+		MIN,
+		STEP_SIZE,
+		VALUE,
+		// string roles
+		HELP_TEXT,
+		HUMAN_NAME,
+		ID
+	};
+
 private:
 	double value;			/// The nominal value of the parameter, stored in native units
 	double min;				/// The minimum allowable value of the parameter, stored in native units
@@ -34,6 +52,17 @@ public:
 
 	void	clearFlags();
 
+	void 	set(eRole role, unsigned int value);
+	void	set(eRole role, double value, bool is_normalized = false);
+	void	set(eRole role, bool value);
+	void	set(eRole role, string value);
+
+	void	get(eRole role, unsigned int & value);
+	void	get(eRole role, double & value, bool normalized = false);
+	void	get(eRole role, bool & value);
+	void	get(eRole role, string & value);
+
+public:
 	double 	getValue(bool normalized = false) const;
 	double 	getMin() const { return min; };
 	double 	getMax() const { return max; };
@@ -56,6 +85,7 @@ public:
 	void	setID(string new_id);
 	void	setHumanName(string new_human_name);
 	void	setHelpText(string new_help_text);
+
 
 	void 	toggleBoundsChecks(bool enable_checks);
 };

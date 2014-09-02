@@ -163,3 +163,166 @@ void CParameter::toggleBoundsChecks(bool enable_checks)
 {
 	check_bounds = enable_checks;
 }
+
+/// Sets values with integer roles
+void CParameter::set(eRole role, unsigned int value)
+{
+	switch(role)
+	{
+	// integer roles
+	case DECIMAL_PLACES:
+		setDecimalPlaces(value);
+		break;
+
+	default:
+		break;
+	}
+}
+
+/// Sets values with decimal/double roles
+void CParameter::set(eRole role, double value, bool is_normalized)
+{
+	switch(role)
+	{
+
+	case MAX:
+		setMax(value);
+		break;
+
+	case MIN:
+		setMin(value);
+		break;
+
+	case STEP_SIZE:
+		setStepSize(value);
+		break;
+
+	case VALUE:
+		setValue(value, is_normalized);
+		break;
+
+	default:
+		break;
+	}
+}
+
+/// Sets values with boolean roles
+void CParameter::set(eRole role, bool value)
+{
+	switch(role)
+	{
+	// boolean roles:
+	case DIRTY:
+		setDirty(value);
+		break;
+
+	case IS_FREE:
+		setFree(value);
+		break;
+
+	default:
+		return;
+	}
+}
+
+/// Sets values with string roles
+void CParameter::set(eRole role, string value)
+{
+	switch(role)
+	{
+	// boolean roles:
+	case HELP_TEXT:
+		setHelpText(value);
+		break;
+
+	case HUMAN_NAME:
+		setHumanName(value);
+		break;
+
+	case ID:
+		setID(value);
+		break;
+
+	default:
+		return;
+	}
+}
+
+void CParameter::get(eRole role, unsigned int & value)
+{
+	switch(role)
+	{
+	// integer roles
+	case DECIMAL_PLACES:
+		value = getDecimalPlaces();
+		break;
+
+	default:
+		break;
+	}
+}
+
+void CParameter::get(eRole role, double & value, bool normalized)
+{
+	switch(role)
+	{
+
+	case MAX:
+		value = getMax();
+		break;
+
+	case MIN:
+		value = getMin();
+		break;
+
+	case STEP_SIZE:
+		value = getStepSize();
+		break;
+
+	case VALUE:
+		value = getValue(normalized);
+		break;
+
+	default:
+		break;
+	}
+}
+
+void CParameter::get(eRole role, bool & value)
+{
+	switch(role)
+	{
+	// boolean roles:
+	case DIRTY:
+		value = isDirty();
+		break;
+
+	case IS_FREE:
+		value = isFree();
+		break;
+
+	default:
+		return;
+	}
+}
+void CParameter::get(eRole role, string & value)
+{
+	switch(role)
+	{
+	// boolean roles:
+	case HELP_TEXT:
+		value = getHelpText();
+		break;
+
+	case HUMAN_NAME:
+		value = getHumanName();
+		break;
+
+	case ID:
+		value = getID();
+		break;
+
+	default:
+		return;
+	}
+}
