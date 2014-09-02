@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
 
 	// Set the default OpenGL format
 	QGLFormat fmt;
-	fmt.setVersion(3, 2);
+	fmt.setVersion(3, 3);
 	fmt.setProfile(QGLFormat::CoreProfile);
 	fmt.setDoubleBuffer(true);
 	fmt.setSampleBuffers(true);
