@@ -18,9 +18,9 @@
 // Standard OpenGL Headers
 #ifdef __APPLE__
 # define __gl_h_
-# define GL_DO_NOT_WARN_IF_MULTI_GL_VERSION_HEADERS_INCLUDED
+//# define GL_DO_NOT_WARN_IF_MULTI_GL_VERSION_HEADERS_INCLUDED
 #include <OpenGL/gl3.h>
-#include <OpenGL/glu.h>
+//#include <OpenGL/glu.h>
 #else
 #ifdef _WIN32
   #include <windows.h>
@@ -54,12 +54,9 @@ static void printGLErrorDetail(GLenum error_code, std::string message)
 {
 	// Ugly workaround for OSX 10.9 deprecating gluErrorString
 #ifdef __APPLE__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif // __APPLE__
+	std::string error_string = "Error code only on Apple... sorry."
+#else
 	std::string error_string = (const char *) gluErrorString(error_code);
-#ifdef __APPLE__
-#pragma GCC diagnostic pop
 #endif // __APPLE__
 	std::cout << "Error: "<< message << std::endl;
 	std::cout << "OpenGL error code: " << error_code << std::endl;;
