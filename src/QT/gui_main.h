@@ -95,7 +95,7 @@ private slots:
     void minimizerFinished();
 
     void on_doubleSpinBoxJD_valueChanged(double jd);
-
+    
     void on_actionExport_triggered();
     void on_actionOpen_triggered();
     void on_actionSave_triggered();

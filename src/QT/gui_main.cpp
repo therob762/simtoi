@@ -153,8 +153,8 @@ void gui_main::ButtonCheck()
 	this->btnAddModel->setEnabled(true);
 	if(widget->GetTreeModel()->rowCount() > 0)
 	{
-		this->btnEditModel->setEnabled(true);
-		this->btnDeleteModel->setEnabled(true);
+		this->btnEditModel->setEnabled(false);
+		this->btnDeleteModel->setEnabled(false);
 	}
 
 	// Buttons for minimizer area
@@ -387,6 +387,8 @@ void gui_main::on_actionOpen_triggered()
 		filenames = dialog.selectedFiles();
 		Open(filenames);
 	}
+	
+		
 }
 
 void gui_main::on_actionSave_triggered()
@@ -596,7 +598,7 @@ void gui_main::on_mdiArea_subWindowActivated()
 
 	// Configure the open file widget:
 	this->treeOpenFiles->setHeaderHidden(false);
-    this->treeOpenFiles->setModel(widget->GetOpenFileModel());
+        this->treeOpenFiles->setModel(widget->GetOpenFileModel());
 	this->treeOpenFiles->header()->setResizeMode(QHeaderView::ResizeToContents);
 
 	// Configure the model tree
@@ -606,6 +608,8 @@ void gui_main::on_mdiArea_subWindowActivated()
 	this->treeModels->header()->setResizeMode(QHeaderView::ResizeToContents);
 	// expand the tree fully
 	this->treeModels->expandAll();
+
+	
 }
 
 void gui_main::on_btnNewModelArea_clicked()
@@ -613,8 +617,8 @@ void gui_main::on_btnNewModelArea_clicked()
 	int width = this->spinModelSize->value();
     int height = this->spinModelSize->value();
     double scale = this->spinModelScale->value();
-
-	CGLWidget * widget = new CGLWidget(NULL, mShaderSourceDir, mKernelSourceDir);
+    
+    	CGLWidget * widget = new CGLWidget(NULL, mShaderSourceDir, mKernelSourceDir);
 	widget->SetSize(width, height);
 	widget->SetScale(scale);
 	AddGLArea(widget);
